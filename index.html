@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="School Game - Quiz de TI da Prof. Silvana Siqueira da Silva">
+  <meta name="theme-color" content="#f97316">
+  <title>School Game | Quiz Gamificado</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- Fonte legível e moderna (acessibilidade) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+  <div class="app-bg" aria-hidden="true"></div>
+  <div id="confetti-container" class="confetti-container" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="logo">
+      <span class="logo-icon icon icon--md icon--brand" aria-hidden="true"></span>
+      <h1>School <span class="logo-highlight">Game</span></h1>
+    </div>
+    <nav class="nav-tabs" role="tablist" aria-label="Navegação principal">
+      <button type="button" class="nav-btn active" data-screen="home" role="tab" aria-selected="true">Início</button>
+      <button type="button" class="nav-btn" data-screen="ranking" role="tab" aria-selected="false">Ranking</button>
+      <button type="button" class="nav-btn nav-btn--login" data-screen="teacher" role="tab" aria-selected="false">
+        <span class="nav-icon" data-icon="lock" aria-hidden="true"></span>
+        Login
+      </button>
+    </nav>
+  </header>
+
+  <main id="main-content" class="main-content">
+
+    <!-- ========== TELA INICIAL ========== -->
+    <section id="screen-home" class="screen active" aria-labelledby="home-title">
+      <div class="card card-hero">
+        <div class="home-layout">
+          <div class="home-info">
+            <p class="hero-tag">Tecnologia da Informação · Prof. Silvana</p>
+            <h2 id="home-title" class="screen-title screen-title--left">Bem-vindo ao School Game!</h2>
+            <p class="screen-subtitle screen-subtitle--left">
+              Quiz gamificado de TI da <strong>Professora Silvana Siqueira da Silva</strong>.
+              Identifique-se, responda e compare seu desempenho com a turma.
+            </p>
+
+            <div class="teacher-card" aria-label="Professora responsável">
+              <span class="teacher-icon" data-icon="user" aria-hidden="true"></span>
+              <div class="teacher-info">
+                <span class="teacher-label">Prof. Silvana · TI</span>
+                <strong class="teacher-name">Silvana Siqueira da Silva</strong>
+                <span class="teacher-role">Quiz de Tecnologia da Informação · UNINTER</span>
+              </div>
+            </div>
+
+            <div class="categories" aria-label="Temas do quiz">
+              <span class="category-chip"><span data-icon="zap" aria-hidden="true"></span> Hardware</span>
+              <span class="category-chip"><span data-icon="edit" aria-hidden="true"></span> Programação</span>
+              <span class="category-chip"><span data-icon="chart" aria-hidden="true"></span> Redes</span>
+              <span class="category-chip"><span data-icon="lock" aria-hidden="true"></span> Segurança</span>
+            </div>
+
+            <ol class="how-steps" aria-label="Como funciona">
+              <li>
+                <span class="step-icon" data-icon="user" aria-hidden="true"></span>
+                <span>Nome, RU e turma</span>
+              </li>
+              <li>
+                <span class="step-icon" data-icon="list" aria-hidden="true"></span>
+                <span><span class="badge-question-count">16 perguntas</span> em ordem aleatória</span>
+              </li>
+              <li>
+                <span class="step-icon" data-icon="timer" aria-hidden="true"></span>
+                <span>Ganhe bônus por rapidez</span>
+              </li>
+              <li>
+                <span class="step-icon" data-icon="trophy" aria-hidden="true"></span>
+                <span>Veja sua nota e o ranking</span>
+              </li>
+            </ol>
+          </div>
+
+          <div class="home-form">
+            <form id="form-start" class="start-form start-form--card" novalidate>
+              <h3 class="home-form-title">Identifique-se para jogar</h3>
+
+              <fieldset class="form-fieldset">
+                <legend class="label">Dados do aluno</legend>
+
+                <label for="player-name" class="label">Nome completo</label>
+                <input
+                  type="text"
+                  id="player-name"
+                  class="input"
+                  placeholder="Ex.: Maria Silva"
+                  maxlength="50"
+                  autocomplete="name"
+                  required
+                  aria-required="true"
+                >
+
+                <label for="player-ru" class="label">RU (Registro Universitário)</label>
+                <input
+                  type="text"
+                  id="player-ru"
+                  class="input"
+                  placeholder="Ex.: 3120456"
+                  maxlength="12"
+                  inputmode="numeric"
+                  pattern="[0-9]{5,12}"
+                  required
+                  aria-required="true"
+                >
+
+                <label for="player-turma" class="label">Turma</label>
+                <select id="player-turma" class="input input-select" required aria-required="true">
+                  <option value="">Selecione sua turma</option>
+                  <option value="1º A">1º A</option>
+                  <option value="1º B">1º B</option>
+                  <option value="2º A">2º A</option>
+                  <option value="2º B">2º B</option>
+                  <option value="3º TI">3º TI</option>
+                </select>
+              </fieldset>
+
+              <p id="form-error" class="error-msg" role="alert" hidden></p>
+
+              <div class="quiz-info quiz-info--compact">
+                <span class="badge"><span class="badge-icon" data-icon="zap" aria-hidden="true"></span> Ordem aleatória</span>
+                <span class="badge"><span class="badge-icon" data-icon="timer" aria-hidden="true"></span> 20s por pergunta</span>
+              </div>
+
+              <p class="keyboard-hint" aria-hidden="true">Dica: use as teclas <kbd>A</kbd> <kbd>B</kbd> <kbd>C</kbd> <kbd>D</kbd> durante o quiz</p>
+
+              <button type="submit" class="btn btn-primary btn-large">
+                <span class="btn-icon" data-icon="play" aria-hidden="true"></span>
+                Iniciar Quiz
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TELA DO QUIZ ========== -->
+    <section id="screen-quiz" class="screen" aria-labelledby="quiz-title" hidden>
+      <div class="quiz-header">
+        <div class="player-badge">
+          <span class="stat-inline-icon" data-icon="user" aria-hidden="true"></span>
+          <div class="player-badge-text">
+            <span id="quiz-player-name">Jogador</span>
+            <small id="quiz-player-meta" class="player-meta">RU · Turma</small>
+          </div>
+        </div>
+        <div class="quiz-stats">
+          <div class="stat-box timer-box" aria-live="polite" aria-atomic="true">
+            <div class="timer-ring" id="timer-ring">
+              <svg viewBox="0 0 36 36" aria-hidden="true">
+                <circle class="timer-ring-bg" cx="18" cy="18" r="15.5"></circle>
+                <circle class="timer-ring-fill" id="timer-ring-fill" cx="18" cy="18" r="15.5"></circle>
+              </svg>
+              <span id="timer" class="timer-ring-value">20</span>
+            </div>
+            <span class="stat-label"><span class="stat-inline-icon" data-icon="timer" aria-hidden="true"></span> Tempo</span>
+          </div>
+          <div class="stat-box score-box" aria-live="polite" aria-atomic="true">
+            <span id="live-score" class="stat-value">0</span>
+            <span class="stat-label"><span class="stat-inline-icon" data-icon="chart" aria-hidden="true"></span> Pontos</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Barra de progresso animada -->
+      <div class="progress-wrapper" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="progress-bar-container">
+        <div class="progress-track">
+          <div id="progress-fill" class="progress-fill"></div>
+        </div>
+        <span id="progress-text" class="progress-text">Pergunta 1 de 16</span>
+        <div id="progress-dots" class="progress-dots" aria-hidden="true"></div>
+      </div>
+
+      <div class="card card-quiz">
+        <span id="question-category" class="category-tag">Categoria</span>
+        <h2 id="quiz-title" class="question-text">Pergunta aqui</h2>
+
+        <ul id="options-list" class="options-list" role="listbox" aria-label="Opções de resposta">
+          <!-- Opções geradas via JavaScript -->
+        </ul>
+
+        <div id="feedback" class="feedback" role="status" aria-live="polite" hidden>
+          <p id="feedback-text"></p>
+        </div>
+
+        <button type="button" id="btn-next" class="btn btn-primary btn-large" disabled>
+          Próxima pergunta
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== TELA DE RESULTADO ========== -->
+    <section id="screen-result" class="screen" aria-labelledby="result-title" hidden>
+      <div class="card card-result">
+        <div id="result-icon" class="result-icon-wrap" aria-hidden="true">
+          <span data-icon="celebrate" class="icon icon--xl"></span>
+        </div>
+        <h2 id="result-title" class="screen-title">Resultado Final</h2>
+        <p id="result-player" class="result-player"></p>
+
+        <div class="grade-circle" aria-label="Nota final">
+          <span id="final-grade" class="grade-value">0</span>
+          <span class="grade-label">nota</span>
+        </div>
+
+        <div class="result-stats">
+          <div class="result-stat">
+            <span id="correct-count" class="result-number">0</span>
+            <span class="result-label">acertos</span>
+          </div>
+          <div class="result-stat">
+            <span id="percent-score" class="result-number">0%</span>
+            <span class="result-label">aproveitamento</span>
+          </div>
+          <div class="result-stat">
+            <span id="total-points" class="result-number">0</span>
+            <span class="result-label">pontos</span>
+          </div>
+        </div>
+
+        <p id="result-rank-position" class="result-rank-position" hidden></p>
+
+        <div id="result-category-breakdown" class="category-breakdown" aria-label="Desempenho por categoria"></div>
+
+        <p id="performance-message" class="performance-message"></p>
+
+        <div class="result-actions">
+          <button type="button" id="btn-review" class="btn btn-secondary btn-large">
+            <span data-icon="book" aria-hidden="true"></span>
+            Revisar gabarito
+          </button>
+          <button type="button" id="btn-restart" class="btn btn-primary btn-large">
+            Jogar novamente
+          </button>
+          <button type="button" id="btn-go-ranking" class="btn btn-secondary">
+            Ver ranking
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TELA DE REVISÃO ========== -->
+    <section id="screen-review" class="screen" aria-labelledby="review-title" hidden>
+      <div class="card card-review">
+        <h2 id="review-title" class="screen-title screen-title--with-icon">
+          <span class="title-icon" data-icon="book" aria-hidden="true"></span>
+          Revisão do Gabarito
+        </h2>
+        <p class="screen-subtitle">Confira suas respostas e aprenda com os erros</p>
+        <ol id="review-list" class="review-list"></ol>
+        <div class="result-actions">
+          <button type="button" id="btn-review-back" class="btn btn-primary btn-large">Voltar ao resultado</button>
+          <button type="button" id="btn-review-home" class="btn btn-secondary">Início</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== TELA DE RANKING ========== -->
+    <section id="screen-ranking" class="screen" aria-labelledby="ranking-title" hidden>
+      <div class="card card-ranking">
+        <h2 id="ranking-title" class="screen-title screen-title--with-icon">
+          <span class="title-icon" data-icon="trophy" aria-hidden="true"></span>
+          Melhores Jogadores
+        </h2>
+        <p class="screen-subtitle">Alunos que já responderam o quiz da Prof. Silvana</p>
+
+        <div class="ranking-filters">
+          <label for="ranking-filter-turma" class="label">Filtrar por turma</label>
+          <select id="ranking-filter-turma" class="input input-select">
+            <option value="">Todas as turmas</option>
+            <option value="1º A">1º A</option>
+            <option value="1º B">1º B</option>
+            <option value="2º A">2º A</option>
+            <option value="2º B">2º B</option>
+            <option value="3º TI">3º TI</option>
+          </select>
+        </div>
+
+        <div id="ranking-podium" class="ranking-podium" aria-label="Pódio dos três primeiros" hidden></div>
+
+        <ol id="ranking-list" class="ranking-list">
+          <!-- Itens gerados via JavaScript -->
+        </ol>
+
+        <p id="ranking-empty" class="empty-ranking" hidden>
+          Nenhuma pontuação ainda. Seja o primeiro a jogar!
+        </p>
+
+        <button type="button" id="btn-clear-ranking" class="btn btn-danger btn-small">
+          Limpar ranking
+        </button>
+        <button type="button" id="btn-back-home" class="btn btn-secondary">
+          Voltar ao início
+        </button>
+      </div>
+    </section>
+
+    <!-- ========== LOGIN ========== -->
+    <section id="screen-teacher-login" class="screen screen-login" aria-labelledby="teacher-login-title" hidden>
+      <div class="login-layout">
+        <div class="login-brand">
+          <span class="login-brand-icon" data-icon="chart" aria-hidden="true"></span>
+          <h2 class="login-brand-title">School Game</h2>
+          <p class="login-brand-text">Dashboard da Prof. Silvana · Tecnologia da Informação</p>
+          <ul class="login-features">
+            <li><span data-icon="list" aria-hidden="true"></span> Gerenciar perguntas do quiz</li>
+            <li><span data-icon="user" aria-hidden="true"></span> Avaliar desempenho dos alunos</li>
+            <li><span data-icon="chart" aria-hidden="true"></span> Acompanhar estatísticas da turma</li>
+          </ul>
+        </div>
+
+        <div class="login-form-card card">
+          <h2 id="teacher-login-title" class="login-form-title">
+            <span data-icon="lock" aria-hidden="true"></span>
+            Login
+          </h2>
+          <p class="login-form-sub">Acesse o painel administrativo</p>
+
+          <form id="form-teacher-login" class="start-form" novalidate>
+            <label for="teacher-user" class="label">Usuário</label>
+            <input type="text" id="teacher-user" class="input" placeholder="seu.usuario" autocomplete="username" required>
+
+            <label for="teacher-password" class="label">Senha</label>
+            <input type="password" id="teacher-password" class="input" placeholder="••••••••" autocomplete="current-password" required>
+
+            <p id="teacher-login-error" class="error-msg" role="alert" hidden></p>
+
+            <button type="submit" class="btn btn-primary btn-large">Entrar</button>
+            <button type="button" id="btn-teacher-login-back" class="btn btn-secondary">Voltar ao quiz</button>
+          </form>
+
+          <p class="login-hint">Demo: <strong>silvana</strong> / <strong>ti2026</strong></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== DASHBOARD ========== -->
+    <section id="screen-teacher-panel" class="screen screen-dashboard" aria-labelledby="dashboard-page-title" hidden>
+      <div class="dashboard">
+        <aside class="dashboard-sidebar" aria-label="Menu do painel">
+          <div class="sidebar-brand">
+            <span class="sidebar-logo" data-icon="chart" aria-hidden="true"></span>
+            <div>
+              <strong>School Game</strong>
+              <span>Dashboard</span>
+            </div>
+          </div>
+
+          <div class="sidebar-user">
+            <span class="sidebar-avatar" data-icon="user" aria-hidden="true"></span>
+            <div>
+              <strong>Silvana Siqueira</strong>
+              <span>Professora · TI</span>
+            </div>
+          </div>
+
+          <nav class="sidebar-nav" role="tablist">
+            <button type="button" class="sidebar-link active" data-teacher-tab="overview" role="tab" aria-selected="true">
+              <span data-icon="chart" aria-hidden="true"></span> Visão geral
+            </button>
+            <button type="button" class="sidebar-link" data-teacher-tab="questions" role="tab" aria-selected="false">
+              <span data-icon="list" aria-hidden="true"></span> Perguntas
+            </button>
+            <button type="button" class="sidebar-link" data-teacher-tab="students" role="tab" aria-selected="false">
+              <span data-icon="user" aria-hidden="true"></span> Alunos
+            </button>
+          </nav>
+
+          <button type="button" id="btn-teacher-logout" class="sidebar-logout">
+            <span data-icon="logout" aria-hidden="true"></span> Sair
+          </button>
+        </aside>
+
+        <div class="dashboard-main">
+          <header class="dashboard-topbar">
+            <div>
+              <h1 id="dashboard-page-title" class="dashboard-heading">Visão geral</h1>
+              <p class="dashboard-breadcrumb">School Game / Dashboard</p>
+            </div>
+            <span class="dashboard-date" id="dashboard-date"></span>
+          </header>
+
+          <!-- Aba: Visão geral -->
+          <div id="teacher-tab-overview" class="dashboard-panel active">
+            <div class="kpi-grid" id="dashboard-kpis"></div>
+
+            <section class="charts-section" aria-label="Gráficos de desempenho">
+              <h3 class="charts-section-title">Gráficos · desempenho da turma</h3>
+              <div class="charts-grid">
+                <div class="dash-card chart-card">
+                  <h4 class="chart-card-title">Média de nota por turma</h4>
+                  <div class="chart-wrap"><canvas id="chart-turma-avg" aria-label="Gráfico de barras: média por turma"></canvas></div>
+                </div>
+                <div class="dash-card chart-card">
+                  <h4 class="chart-card-title">Distribuição de notas</h4>
+                  <div class="chart-wrap"><canvas id="chart-grade-bands" aria-label="Gráfico de rosca: faixas de nota"></canvas></div>
+                </div>
+                <div class="dash-card chart-card">
+                  <h4 class="chart-card-title">Respostas por dia</h4>
+                  <div class="chart-wrap"><canvas id="chart-responses-day" aria-label="Gráfico de linha: respostas por dia"></canvas></div>
+                </div>
+                <div class="dash-card chart-card">
+                  <h4 class="chart-card-title">Maiores pontuações</h4>
+                  <div class="chart-wrap"><canvas id="chart-top-scores" aria-label="Gráfico de barras: top pontuações"></canvas></div>
+                </div>
+              </div>
+            </section>
+
+            <div class="dashboard-grid-2">
+              <div class="dash-card">
+                <h3 class="dash-card-title">Ações rápidas</h3>
+                <div class="quick-actions">
+                  <button type="button" class="quick-action" data-goto-tab="questions">
+                    <span data-icon="edit" aria-hidden="true"></span>
+                    <span>Editar perguntas</span>
+                  </button>
+                  <button type="button" class="quick-action" data-goto-tab="students">
+                    <span data-icon="user" aria-hidden="true"></span>
+                    <span>Avaliar alunos</span>
+                  </button>
+                  <button type="button" class="quick-action" id="btn-dash-add-question">
+                    <span data-icon="list" aria-hidden="true"></span>
+                    <span>Nova pergunta</span>
+                  </button>
+                </div>
+              </div>
+              <div class="dash-card">
+                <h3 class="dash-card-title">Últimas respostas</h3>
+                <ul id="dashboard-recent" class="recent-list"></ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aba: Perguntas -->
+          <div id="teacher-tab-questions" class="dashboard-panel">
+            <div class="dash-card dash-card--full">
+              <div class="teacher-panel-actions">
+                <div>
+                  <h3 class="dash-card-title">Banco de perguntas</h3>
+                  <p id="questions-count-label" class="panel-meta">0 perguntas no quiz</p>
+                </div>
+                <div class="btn-group">
+                  <button type="button" id="btn-add-question" class="btn btn-primary btn-small">+ Nova pergunta</button>
+                  <button type="button" id="btn-reset-questions" class="btn btn-secondary btn-small">Restaurar padrão</button>
+                </div>
+              </div>
+
+              <div id="questions-list" class="questions-list"></div>
+
+              <div id="question-editor" class="question-editor" hidden>
+          <h3 id="editor-title" class="editor-title">Editar pergunta</h3>
+          <form id="form-question" class="question-form">
+            <input type="hidden" id="edit-question-index" value="-1">
+
+            <label for="q-category" class="label">Categoria</label>
+            <input type="text" id="q-category" class="input" placeholder="Ex.: Hardware, Redes..." required maxlength="40">
+
+            <label for="q-text" class="label">Pergunta</label>
+            <textarea id="q-text" class="input input-area" rows="3" required maxlength="300"></textarea>
+
+            <label for="q-explanation" class="label">Explicação (opcional — exibida na revisão)</label>
+            <textarea id="q-explanation" class="input input-area" rows="2" maxlength="400" placeholder="Texto de apoio para o aluno revisar o conteúdo..."></textarea>
+
+            <fieldset class="options-fieldset">
+              <legend class="label">Alternativas (marque a correta)</legend>
+              <label class="option-edit"><input type="radio" name="q-correct" value="0" required> <span>A)</span> <input type="text" id="q-opt-0" class="input" required maxlength="120"></label>
+              <label class="option-edit"><input type="radio" name="q-correct" value="1"> <span>B)</span> <input type="text" id="q-opt-1" class="input" required maxlength="120"></label>
+              <label class="option-edit"><input type="radio" name="q-correct" value="2"> <span>C)</span> <input type="text" id="q-opt-2" class="input" required maxlength="120"></label>
+              <label class="option-edit"><input type="radio" name="q-correct" value="3"> <span>D)</span> <input type="text" id="q-opt-3" class="input" required maxlength="120"></label>
+            </fieldset>
+
+            <p id="question-form-error" class="error-msg" role="alert" hidden></p>
+
+            <div class="btn-group">
+              <button type="submit" class="btn btn-primary">Salvar pergunta</button>
+              <button type="button" id="btn-cancel-question" class="btn btn-secondary">Cancelar</button>
+            </div>
+          </form>
+              </div>
+            </div>
+          </div>
+
+          <!-- Aba: Alunos -->
+          <div id="teacher-tab-students" class="dashboard-panel" hidden>
+            <div class="students-summary" id="students-summary"></div>
+
+            <section class="charts-section charts-section--compact" aria-label="Gráficos dos alunos filtrados">
+              <h3 class="charts-section-title">Gráficos · filtros atuais</h3>
+              <div class="charts-grid charts-grid--2">
+                <div class="dash-card chart-card">
+                  <h4 class="chart-card-title">Média por turma</h4>
+                  <div class="chart-wrap chart-wrap--sm"><canvas id="chart-students-turma"></canvas></div>
+                </div>
+                <div class="dash-card chart-card">
+                  <h4 class="chart-card-title">Situação pedagógica</h4>
+                  <div class="chart-wrap chart-wrap--sm"><canvas id="chart-students-status"></canvas></div>
+                </div>
+              </div>
+            </section>
+
+            <div class="dash-card dash-card--full">
+              <h3 class="dash-card-title">Avaliação dos alunos</h3>
+              <div class="students-filters">
+          <label for="filter-turma" class="label">Filtrar por turma</label>
+          <select id="filter-turma" class="input input-select">
+            <option value="">Todas as turmas</option>
+            <option value="1º A">1º A</option>
+            <option value="1º B">1º B</option>
+            <option value="2º A">2º A</option>
+            <option value="2º B">2º B</option>
+            <option value="3º TI">3º TI</option>
+          </select>
+          <label class="filter-demo">
+            <input type="checkbox" id="filter-show-demo">
+            Mostrar alunos de demonstração
+          </label>
+        </div>
+
+        <div class="table-wrap">
+          <table class="students-table" aria-label="Desempenho dos alunos">
+            <thead>
+              <tr>
+                <th>Aluno</th>
+                <th>RU</th>
+                <th>Turma</th>
+                <th>Nota</th>
+                <th>%</th>
+                <th>Pontos</th>
+                <th>Data</th>
+                <th>Situação</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="students-table-body"></tbody>
+          </table>
+        </div>
+              <p id="students-empty" class="empty-ranking" hidden>Nenhum aluno encontrado com os filtros atuais.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>School Game &copy; 2026 — Prof. Silvana Siqueira da Silva · TI · UNINTER</p>
+  </footer>
+
+  <script src="js/icons.js"></script>
+  <script src="js/questions.js"></script>
+  <script src="js/data-demo.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="js/charts.js"></script>
+  <script src="js/teacher.js"></script>
+  <script src="js/script.js"></script>
+</body>
+</html>

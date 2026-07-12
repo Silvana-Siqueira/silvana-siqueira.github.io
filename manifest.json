@@ -1,0 +1,18 @@
+{
+  "name": "School Game — Quiz de TI",
+  "short_name": "School Game",
+  "description": "Quiz gamificado de Tecnologia da Informação da Prof. Silvana Siqueira da Silva",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#f97316",
+  "lang": "pt-BR",
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
